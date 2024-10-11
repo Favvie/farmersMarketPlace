@@ -86,7 +86,7 @@ contract TransactionController {
         if (_farmer == address(0)) revert InvalidAddress();
         if (msg.sender == address(0)) revert InvalidAddress();
 
-        (address farmerAddress, , ) = MARKETPLACE.farmers(_farmer);
+        (address farmerAddress, , , ) = MARKETPLACE.farmers(_farmer);
 
         if (farmerAddress == address(0)) revert InvalidAddress();
 
