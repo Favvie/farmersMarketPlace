@@ -62,7 +62,7 @@ contract TransactionController {
         address farmer;
         address buyer;
         Status status;
-        uint40 deliveryCode;
+        uint16 deliveryCode;
         PaymentStatus paymentStatus;
     }
 
@@ -82,7 +82,7 @@ contract TransactionController {
         uint256 _itemId,
         address _farmer,
         bool _partPayment
-    ) external payable {
+    ) external payable returns (uint16) {
         if (_farmer == address(0)) revert InvalidAddress();
         if (msg.sender == address(0)) revert InvalidAddress();
 
@@ -100,7 +100,7 @@ contract TransactionController {
 
         balances[msg.sender] = balances[msg.sender] + msg.value;
 
-        createTransaction(
+        uint16 _deliveryCode = createTransaction(
             _itemId,
             msg.value,
             _farmer,
@@ -109,6 +109,8 @@ contract TransactionController {
         );
 
         emit ItemBought(msg.sender, _farmer, _itemId, msg.value);
+
+        return _deliveryCode;
     }
 
     function verifyDelivery(
@@ -168,11 +170,11 @@ contract TransactionController {
         address _farmer,
         address _buyer,
         bool _partPayment
-    ) private {
+    ) private returns (uint16) {
         if (msg.sender == address(0)) revert InvalidAddress();
         if (msg.sender != OWNER) revert Unathorized();
 
-        uint40 _deliveryCode = generateCode(_farmer, _buyer, _itemId, _amount);
+        uint16 _deliveryCode = generateCode(_farmer, _buyer, _itemId, _amount);
 
         transactionId = transactionId + 1;
 
@@ -190,6 +192,8 @@ contract TransactionController {
         } else {
             _transaction.paymentStatus = PaymentStatus.FullyPaid;
         }
+
+        return _deliveryCode;
     }
 
     function payInstallment(uint256 _transactionId) external payable {
