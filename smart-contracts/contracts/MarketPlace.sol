@@ -11,6 +11,7 @@ contract MarketPlace {
         uint256 price;
         uint256 quantity;
         address seller;
+        bool allowsInstallment;
     }
 
     struct Farmer {
@@ -78,7 +79,8 @@ contract MarketPlace {
         string memory _name,
         string memory _description,
         uint256 _price,
-        uint256 _quantity
+        uint256 _quantity,
+        bool _allowsInstallment
     ) external {
         require(
             farmers[msg.sender].farmer != address(0),
@@ -95,7 +97,8 @@ contract MarketPlace {
                 _description,
                 _price,
                 _quantity,
-                msg.sender
+                msg.sender,
+                _allowsInstallment
             );
             farmersListings[msg.sender].push(currentListingIds);
 
