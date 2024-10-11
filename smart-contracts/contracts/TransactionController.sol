@@ -164,6 +164,7 @@ contract TransactionController {
         _transaction.status = Status.Cancelled;
 
         (bool sent, ) = msg.sender.call{value: _transaction.amount}("");
+        require(sent, "Failed to transfer!");
 
         emit TransactionCancelled(
             msg.sender,
