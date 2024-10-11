@@ -86,23 +86,12 @@ contract TransactionController {
         if (_farmer == address(0)) revert InvalidAddress();
         if (msg.sender == address(0)) revert InvalidAddress();
 
-        (
-            address farmerAddress,
-            string memory name,
-            string memory location
-        ) = MARKETPLACE.farmers(_farmer);
+        (address farmerAddress, , ) = MARKETPLACE.farmers(_farmer);
 
         if (farmerAddress == address(0)) revert InvalidAddress();
 
-        (
-            uint256 id,
-            string memory itemName,
-            string memory description,
-            uint256 itemPrice,
-            uint256 quantity,
-            address seller,
-            bool allowsInstallment
-        ) = MARKETPLACE.allListings(_itemId);
+        (, , , uint256 itemPrice, uint256 quantity, , ) = MARKETPLACE
+            .allListings(_itemId);
 
         if (!_partPayment && msg.value < itemPrice) revert InsufficientAmount();
         if (_partPayment && msg.value < itemPrice / 2)
