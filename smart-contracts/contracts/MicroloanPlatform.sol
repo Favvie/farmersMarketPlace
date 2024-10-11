@@ -138,10 +138,14 @@ contract MicroloanPlatform {
 
    
     function depositFunds() public payable onlyPlatformOwner {}
-
-    
+        
     function getContractBalance() public view onlyPlatformOwner returns (uint256) {
         return address(this).balance;
+    }
+
+    
+    function withdraw() public onlyPlatformOwner {
+        payable(platformOwner).transfer(address(this).balance);
     }
 
    
