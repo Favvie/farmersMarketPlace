@@ -29,12 +29,16 @@ contract MarketPlace {
     error NotListingSeller();
     error ListingNotFound();
     error AccountExists();
+    error OnlyOwner();
+    error OutOfStock();
 
     address public immutable OWNER;
 
     enum Role {
+        NotAUser,
         Farmer,
-        Buyer
+        Buyer,
+        Dispatch
     }
 
     struct Listing {
@@ -63,6 +67,7 @@ contract MarketPlace {
     mapping(address => uint256[]) public farmersListings;
     mapping(address => User) public farmers;
     mapping(address => User) public buyers;
+    mapping(address => User) public dispatchers;
 
     constructor() {
         OWNER = msg.sender;
@@ -75,6 +80,7 @@ contract MarketPlace {
         Role _role
     ) external {
         if (msg.sender == address(0)) revert ZeroAddressDetected();
+        if (msg.sender != OWNER) revert OnlyOwner();
 
         if (_account == address(0)) {
             revert ZeroAddressDetected();
@@ -198,6 +204,16 @@ contract MarketPlace {
             }
             revert ZeroAddressDetected();
         }
+    }
+
+    function reduceQuantity(uint256 _listingId, uint256 _reduction) external {
+        if (msg.sender != OWNER) revert OnlyOwner();
+
+        Listing storage _listing = allListings[_listingId];
+
+        if (_listing.quantity < _reduction) revert OutOfStock();
+
+        _listing.quantity = _listing.quantity - _reduction;
     }
 
     function removeListing(uint256 _id) external {
