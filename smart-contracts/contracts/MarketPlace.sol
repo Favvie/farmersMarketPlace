@@ -207,8 +207,6 @@ contract MarketPlace {
     }
 
     function reduceQuantity(uint256 _listingId, uint256 _reduction) external {
-        if (msg.sender != OWNER) revert OnlyOwner();
-
         Listing storage _listing = allListings[_listingId];
 
         if (_listing.quantity < _reduction) revert OutOfStock();

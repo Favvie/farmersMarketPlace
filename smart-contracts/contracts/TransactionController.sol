@@ -181,7 +181,6 @@ contract TransactionController {
         bool _partPayment
     ) private returns (uint16) {
         if (msg.sender == address(0)) revert InvalidAddress();
-        // if (msg.sender != address(this)) revert Unathorized();
 
         uint16 _deliveryCode = generateCode(_farmer, _buyer, _itemId, _amount);
 
