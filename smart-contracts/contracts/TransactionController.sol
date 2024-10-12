@@ -72,12 +72,21 @@ contract TransactionController {
     mapping(uint256 => Transaction) public transactions;
     mapping(address => uint256) public balances;
 
+    event FundsWithdrawn(address farmer, uint256 amount);
+    event FundsTransferred(address sender, address receiver, uint256 amount);
+
     constructor(address _marketPlace) {
         MARKETPLACE = MarketPlace(_marketPlace);
         OWNER = msg.sender;
     }
 
     receive() external payable {}
+
+    modifier onlyRegisteredFarmers() {
+        (address farmerAddress, , , ) = MARKETPLACE.farmers(msg.sender);
+        require(farmerAddress != address(0), "Farmer not registered");
+        _;
+    }
 
     function buyItem(
         uint256 _itemId,
@@ -285,5 +294,43 @@ contract TransactionController {
         uint256 randomFourDigits = (randomHash % 9000) + 1000;
 
         return uint16(randomFourDigits);
+    }
+
+    function withdrawFunds(uint256 _amount) external onlyRegisteredFarmers {
+        require(_amount > 0, "Amount must be greater than zero");
+        require(balances[msg.sender] >= _amount, "Insufficient funds to withdraw");
+        balances[msg.sender] = balances[msg.sender] - _amount;
+        payable(msg.sender).transfer(_amount);
+        emit FundsWithdrawn(msg.sender, _amount);
+    }
+
+    function transferFunds(address _receiver, uint256 _amount) external onlyRegisteredFarmers {
+        require(_receiver != address(0), "Address Zero not allowed");
+        require(_amount > 0, "Amount must be greater than zero");
+        require(balances[msg.sender] >= _amount, "Insufficient funds to transfer");
+        balances[msg.sender] = balances[msg.sender] - _amount;
+        payable(_receiver).transfer(_amount);
+        emit FundsTransferred(msg.sender, _receiver, _amount);
+    }
+
+    function getFarmerTotalEarnings() external view onlyRegisteredFarmers returns (uint256) {
+        return balances[msg.sender];
+    }
+
+    function getFarmerBalance() external onlyRegisteredFarmers view returns (uint256 pendingTotal, uint256 balance) {
+        address farmer = msg.sender;
+        uint256 total = 0;
+
+        // Iterate through all transaction IDs
+        for (uint i = 1; i <= transactionId; i++) {
+            Transaction storage transaction = transactions[i];
+
+            // Check if the transaction belongs to the farmer and is pending
+            if (transaction.farmer == farmer && transaction.status == Status.Pending) {
+                total += transaction.amount;
+            }
+        }
+
+        return (total, balances[farmer]);
     }
 }
