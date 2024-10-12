@@ -321,11 +321,9 @@ contract TransactionController {
         address farmer = msg.sender;
         uint256 total = 0;
 
-        // Iterate through all transaction IDs
         for (uint i = 1; i <= transactionId; i++) {
             Transaction storage transaction = transactions[i];
 
-            // Check if the transaction belongs to the farmer and is pending
             if (transaction.farmer == farmer && transaction.status == Status.Pending) {
                 total += transaction.amount;
             }
