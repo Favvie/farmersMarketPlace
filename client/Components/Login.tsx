@@ -9,8 +9,7 @@ import bgImage from "../assets/images/bg.jpeg";
 export default function LoginScreen() {
   return (
     <div className="flex h-screen">
-      {/* Left Section */}
-      {/* <div className="w-1/3 bg-[url('../assets/images/bg.png)] bg-cover bg-center p-8 flex flex-col justify-between"> */}
+    
 
       <div
         className="w-1/3 p-8 flex flex-col justify-between relative"

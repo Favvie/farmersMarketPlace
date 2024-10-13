@@ -1,76 +1,77 @@
-export default function Component() {
+import Image from "next/image";
+import bgImage from "../assets/images/bg.jpeg";
+import delivery from "../assets/images/Mask .png";
+
+
+export default function RegistrationScreen() {
     return (
       <div className="flex h-screen">
         {/* Left side */}
-        <div className="w-1/2 bg-[url('/placeholder.svg?height=1080&width=960')] bg-cover bg-center relative">
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center">
-            <div className="text-white text-4xl font-bold mb-8 flex items-center">
-              <svg className="w-12 h-12 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 13.5V16H4V13.5H7Z" fill="currentColor" />
-                <path d="M10 10.5V13H7V10.5H10Z" fill="currentColor" />
-                <path d="M13 7.5V10H10V7.5H13Z" fill="currentColor" />
-                <path d="M16 4.5V7H13V4.5H16Z" fill="currentColor" />
-                <path d="M19 1.5V4H16V1.5H19Z" fill="currentColor" />
-                <path d="M21 1.5H19.5V21H21V1.5Z" fill="currentColor" />
-                <path d="M3 13.5H4.5V21H3V13.5Z" fill="currentColor" />
-              </svg>
-              AgroXchange
+        <div
+        className="w-1/3 p-8 flex flex-col justify-between relative"
+        style={{
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Image src={bgImage} alt="bg" fill className="absolute top-0 left-0 object-cover opacity-10 w-full h-full"/>
+
+        <div className="flex h-screen items-center justify-center z-50">
+          <div className="flex flex-col items-center space-y-2">
+            <div className="flex items-center">
+
+              <Image src={delivery} alt="MetaMask img" className="h-20 w-20" />
+              <span className="text-2xl font-bold text-customGreen">AgroXchange</span>
             </div>
-            <div className="text-white text-xl mb-4">Select you Category</div>
-            <button className="bg-green-600 text-white px-6 py-2 rounded-full text-lg font-semibold">
-              Farmer/Buyer
-            </button>
+
+            <div className="flex flex-col items-center">
+
+              <p className="text-black mb-6 text-xl font-bold">Select your Category</p>
+              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300">
+                Farmer/Buyer
+              </button>
+            </div>
           </div>
         </div>
+
+      </div>
   
         {/* Right side */}
-        <div className="w-1/2 bg-green-200 p-8 overflow-y-auto">
-          <form className="space-y-4">
-            <div className="flex flex-col">
-              <label htmlFor="country" className="text-gray-700 mb-1">Country/Region:</label>
-              <input type="text" id="country" className="border rounded p-2" />
+        <div className="w-full bg-green-300 p-12 flex flex-col items-center justify-center">
+   <form className="space-y-6 w-full">
+          <div className="flex items-center space-x-4">
+            <label htmlFor="country" className="text-gray-700 text-xl text-right font-bold ">Country/Location:</label>
+            <input type="text" id="country" className="border rounded-3xl mb-4 p-3 flex-1 py-5" />
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <label htmlFor="fullname" className="text-gray-700 text-xl text-right font-bold ">Full Name:</label>
+            <div className="flex space-x-2 flex-1">
+              <input type="text" id="firstname" className="border rounded-3xl mb-4  p-3 flex-1 py-5" placeholder="First Name" />
+              <input type="text" id="lastname" className="border rounded-3xl mb-4  p-3 flex-1 py-5" placeholder="Last Name" />
             </div>
-            <div className="flex flex-col">
-              <label htmlFor="email" className="text-gray-700 mb-1">Email:</label>
-              <input type="email" id="email" className="border rounded p-2" />
+          </div>
+          <div className="flex items-center space-x-4 pl-28">
+            <label htmlFor="tel" className="text-gray-700 text-xl text-right font-bold">Tel:</label>
+            <div className="flex space-x-2 flex-1">
+              <input type="text" id="tel-1" className="border rounded-3xl mb-4 p-3 w-1/6 py-5" />
+              <input type="text" id="tel-2" className="border rounded-3xl mb-4 p-3 w-1/6 py-5" />
+              <input type="text" id="tel-3" className="border rounded-3xl mb-4  p-3 w-1/2 py-5" />
             </div>
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-gray-700 mb-1">Login Password:</label>
-              <input type="password" id="password" className="border rounded p-2" />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="confirm-password" className="text-gray-700 mb-1">Confirm Password:</label>
-              <input type="password" id="confirm-password" className="border rounded p-2" />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="company" className="text-gray-700 mb-1">Company Name:</label>
-              <input type="text" id="company" className="border rounded p-2" />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="fullname" className="text-gray-700 mb-1">Full Name:</label>
-              <div className="flex space-x-2">
-                <input type="text" id="firstname" className="border rounded p-2 w-1/2" placeholder="First Name" />
-                <input type="text" id="lastname" className="border rounded p-2 w-1/2" placeholder="Last Name" />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="tel" className="text-gray-700 mb-1">Tel:</label>
-              <div className="flex space-x-2">
-                <input type="text" id="tel-1" className="border rounded p-2 w-1/4" />
-                <input type="text" id="tel-2" className="border rounded p-2 w-1/4" />
-                <input type="text" id="tel-3" className="border rounded p-2 w-1/2" />
-              </div>
-            </div>
-            <div className="flex items-center">
-              <input type="checkbox" id="terms" className="mr-2" />
-              <label htmlFor="terms" className="text-sm text-gray-700">
-                I agree to free membership terms and aggrement
-              </label>
-            </div>
-            <button type="submit" className="bg-green-700 text-white px-6 py-2 rounded-full text-lg font-semibold w-full">
-              Sign up
+          </div>
+          <div className="flex justify-center items-center">
+            <input type="checkbox" id="terms" className="mr-2 p-2" />
+            <label htmlFor="terms" className="text-gray-700 font-bold text-xl m-4 ">
+              I agree to free membership terms and aggrement
+            </label>
+          </div>
+          <div className="flex justify-center">
+            <button type="submit" className="bg-green-700 text-white px-8 py-2 rounded-2xl text-lg font-semibold">
+              Register
             </button>
-          </form>
+          </div>
+        </form>
         </div>
       </div>
     )
