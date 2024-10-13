@@ -35,7 +35,7 @@ export default function DashboardPage() {
           {/*chart here */}
         </div>
 
-        <div className="bg-white px-3 py-5 rounded-[8px]">
+        <div className="bg-white px-3 py-5 rounded-[8px] space-y-[4px]">
           <div className="flex items-center justify-between">
             <h2 className="text-[#383E49] font-medium text-xl">
               Best selling products
