@@ -49,7 +49,8 @@ const config: Config = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+			  customGreen: '#265E28',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -57,6 +58,12 @@ const config: Config = {
   			sm: 'calc(var(--radius) - 4px)'
   		}
   	}
+  },
+  fontFamily: {
+	instrument: ['"Instrument Sans"', 'sans-serif'],
+  },
+  boxShadow: {
+	'3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
   },
   plugins: [require("tailwindcss-animate")],
 };
