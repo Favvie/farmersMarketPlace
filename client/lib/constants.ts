@@ -18,3 +18,10 @@ export const SIDEBAR_ITEMS: INavbar[] = [
     href: "/dashboard/orders",
   },
 ];
+
+export const PRODUCT_SALES_TABLE_HEADER = [
+  "Product",
+  "Product ID",
+  "Category",
+  "Remaining Quantity",
+];

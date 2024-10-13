@@ -12,7 +12,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
   const userAddress = "0x6f..813A65";
 
   return (
-    <div className="grid min-h-screen w-full lg:grid-cols-[310px_1fr]">
+    <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
       <aside className="sticky top-0 h-screen bg-blue-2">
         <div className="flex h-full max-h-screen flex-col p-6">
           <Icons.logo />
@@ -31,7 +31,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 
               <li>
                 <NavItemWrapper item={SIDEBAR_ITEMS[1]} pathname={pathname}>
-                  <Icons.cart
+                  <Icons.trolley
                     fill={
                       pathname === SIDEBAR_ITEMS[1].href ? "#448DF2" : "#5D6679"
                     }
@@ -70,7 +70,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
           </nav>
         </div>
       </aside>
-      <>{children}</>
+      <main className="bg-[#F0F1F3] pb-20">{children}</main>
     </div>
   );
 }
