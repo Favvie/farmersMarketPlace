@@ -300,7 +300,8 @@ contract TransactionController {
         require(_amount > 0, "Amount must be greater than zero");
         require(balances[msg.sender] >= _amount, "Insufficient funds to withdraw");
         balances[msg.sender] = balances[msg.sender] - _amount;
-        payable(msg.sender).transfer(_amount);
+        (bool success, ) = payable(msg.sender).call{value: _amount}("");
+        require(success, "Withdrawal failed");
         emit FundsWithdrawn(msg.sender, _amount);
     }
 
@@ -309,7 +310,8 @@ contract TransactionController {
         require(_amount > 0, "Amount must be greater than zero");
         require(balances[msg.sender] >= _amount, "Insufficient funds to transfer");
         balances[msg.sender] = balances[msg.sender] - _amount;
-        payable(_receiver).transfer(_amount);
+        (bool success, ) = payable(_receiver).call{value: _amount}("");
+        require(success, "Transfer failed");
         emit FundsTransferred(msg.sender, _receiver, _amount);
     }
 
