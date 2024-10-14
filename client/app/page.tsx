@@ -188,36 +188,36 @@ export default function Home() {
 
 								<div className="flex flex-col bg-[#2F7532] p-7 rounded-[50px] pt-10 gap-y-3 w-full lg:w-[300px]">
 									<Image
-										src={"/scale.svg"}
+										src={"/listing.svg"}
 										alt={"scale"}
 										width={50}
 										height={50}
 									/>
-									<h3 className="text-white font-semibold text-xl leading-tight">Connect Your Wallet</h3>
-									<p className="text-white">Use your Web3 wallet to sign in and access the marketplace. Buy produce seamlessly using Ethereum, Stablecoins, or other supported tokens</p>
+									<h3 className="text-white font-semibold text-xl leading-tight">Browse On-Chain Listing</h3>
+									<p className="text-white">Filler products by commodity type, price, and region, all with real-time blockchain updates for pricing and availability</p>
 								</div>
 							</div>
 							<div className="flex flex-col gap-y-5 lg:flex-row lg:gap-x-5">
 								<div className="flex flex-col bg-[#2F7532] p-7 rounded-[50px] pt-10 gap-y-3 w-full lg:w-[300px]">
 									<Image
-										src={"/scale.svg"}
+										src={"/cart.svg"}
 										alt={"scale"}
 										width={50}
 										height={50}
 									/>
-									<h3 className="text-white font-semibold text-xl leading-tight">Connect Your Wallet</h3>
-									<p className="text-white">Use your Web3 wallet to sign in and access the marketplace. Buy produce seamlessly using Ethereum, Stablecoins, or other supported tokens</p>
+									<h3 className="text-white font-semibold text-xl leading-tight">Purchase</h3>
+									<p className="text-white">Once you place an order, the transaction is secured via smart contracts, automating payment and ensuring that funds are only released when goods are delivered</p>
 								</div>
 
 								<div className="flex flex-col bg-[#2F7532] p-7 rounded-[50px] pt-10 gap-y-3 w-full lg:w-[300px]">
 									<Image
-										src={"/scale.svg"}
+										src={"/message.svg"}
 										alt={"scale"}
 										width={50}
 										height={50}
 									/>
-									<h3 className="text-white font-semibold text-xl leading-tight">Connect Your Wallet</h3>
-									<p className="text-white">Use your Web3 wallet to sign in and access the marketplace. Buy produce seamlessly using Ethereum, Stablecoins, or other supported tokens</p>
+									<h3 className="text-white font-semibold text-xl leading-tight">Receive Goods and Confirm Delivery</h3>
+									<p className="text-white">Filler products by commodity type, price, and region, all with real-time blockchain updates for pricing and availability</p>
 								</div>
 							</div>
 						</div>
