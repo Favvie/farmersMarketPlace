@@ -22,8 +22,9 @@ body {
     --popover-foreground: 0 0% 3.9%;
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 122 43% 43%;
+
+    --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
@@ -76,3 +77,37 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.bg-marketplace {
+    /* background-image: url('/marketPlace.png'); */
+    background-size: cover; /* Ensures the image covers the entire div */
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    object-fit: cover; /* Centers the image */
+    width: 100%;
+}
+
+.bg-marketplace::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: hsla(122, 42%, 26%, 0.4);/* Green overlay with 50% opacity */
+    z-index: 0; /* Ensure the overlay is behind the text */
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+  width: 80%;
+  margin: 0 auto;
+}
+}
+
