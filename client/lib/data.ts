@@ -1,4 +1,4 @@
-import { IProductSalesData } from "./types";
+import { IProductSalesData, IProfitRevenueData } from "./types";
 
 export const dummy_product_sales_data: IProductSalesData[] = [
   {
@@ -25,4 +25,14 @@ export const dummy_product_sales_data: IProductSalesData[] = [
     category: "Grain",
     stock: "0 kg",
   },
+];
+
+export const dummy_profit_revenue_data: IProfitRevenueData[] = [
+  { month: "September", profit: 41000, revenue: 22000 },
+  { month: "October", profit: 30000, revenue: 38000 },
+  { month: "November", profit: 40000, revenue: 28000 },
+  { month: "December", profit: 50000, revenue: 57000 },
+  { month: "January", profit: 57000, revenue: 50000 },
+  { month: "Febuary", profit: 53000, revenue: 48000 },
+  { month: "March", profit: 39000, revenue: 42000 },
 ];

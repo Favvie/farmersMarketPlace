@@ -9,3 +9,9 @@ export interface IProductSalesData {
   category: string;
   stock: string;
 }
+
+export interface IProfitRevenueData {
+  month: string;
+  profit: number;
+  revenue: number;
+}

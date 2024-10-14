@@ -5,6 +5,7 @@ import { NavItemWrapper } from "./nav-item-wrapper";
 import { usePathname } from "next/navigation";
 import { Icons } from "../icons";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 export function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,7 +16,9 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
       <aside className="sticky top-0 h-screen bg-blue-2">
         <div className="flex h-full max-h-screen flex-col p-6">
-          <Icons.logo />
+          <Link href={"/"}>
+            <Icons.logo />
+          </Link>
 
           <nav className="flex flex-1 flex-col justify-between overflow-auto">
             <ul className="space-y-[12px] py-2 px-4">

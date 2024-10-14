@@ -1,7 +1,8 @@
+import { DashboardSectionWrapper } from "@/components/dashboard/dashboard-section-wrapper";
 import { ProductSalesTable } from "@/components/dashboard/product-sales-table";
+import { ProfitRevenueChart } from "@/components/dashboard/profit-revenue-chart";
 import { ReportItemWrapper } from "@/components/dashboard/report-item-wrapper";
 import { Icons } from "@/components/icons";
-import Link from "next/link";
 
 export default function DashboardPage() {
   return (
@@ -31,25 +32,21 @@ export default function DashboardPage() {
           </ReportItemWrapper>
         </div>
 
-        <div className="bg-white px-3 py-5 rounded-[8px]">
-          {/*chart here */}
-        </div>
+        <DashboardSectionWrapper
+          title="Profit & Revenue"
+          linkUrl="/dasboard"
+          options={["Weekly"]}
+        >
+          <ProfitRevenueChart />
+        </DashboardSectionWrapper>
 
-        <div className="bg-white px-3 py-5 rounded-[8px] space-y-[4px]">
-          <div className="flex items-center justify-between">
-            <h2 className="text-[#383E49] font-medium text-xl">
-              Best selling products
-            </h2>
-            <Link
-              href={"/dashboard"}
-              className="text-blue-1 text-sm hover:underline"
-            >
-              See All
-            </Link>
-          </div>
-
+        <DashboardSectionWrapper
+          title="Best selling products"
+          linkUrl="/dasboard"
+          linkText="See All"
+        >
           <ProductSalesTable />
-        </div>
+        </DashboardSectionWrapper>
       </div>
     </>
   );
