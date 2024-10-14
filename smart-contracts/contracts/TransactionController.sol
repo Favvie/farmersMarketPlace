@@ -302,16 +302,6 @@ contract TransactionController {
         emit FundsWithdrawn(msg.sender, _amount);
     }
 
-    function transferFunds(address _receiver, uint256 _amount) external onlyRegisteredFarmers {
-        require(_receiver != address(0), "Address Zero not allowed");
-        require(_amount > 0, "Amount must be greater than zero");
-        require(balances[msg.sender] >= _amount, "Insufficient funds to transfer");
-        balances[msg.sender] = balances[msg.sender] - _amount;
-        (bool success, ) = payable(_receiver).call{value: _amount}("");
-        require(success, "Transfer failed");
-        emit FundsTransferred(msg.sender, _receiver, _amount);
-    }
-
     function getFarmerTotalEarnings() external view onlyRegisteredFarmers returns (uint256) {
         return balances[msg.sender];
     }
@@ -331,9 +321,4 @@ contract TransactionController {
         return (total, balances[farmer]);
     }
 
-    function depositFunds(uint256 _amount) external payable onlyRegisteredFarmers {
-        require(_amount > 0, "Amount must be greater than zero");
-        balances[msg.sender] += _amount;
-        emit FundsDeposited(msg.sender, _amount);
-    }
 }
