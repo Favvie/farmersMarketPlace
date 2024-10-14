@@ -8,7 +8,8 @@ contract TransactionController {
         address indexed buyer,
         address indexed farmer,
         uint256 indexed itemId,
-        uint256 amount
+        uint256 amount,
+        uint16 deliveryCode
     );
 
     event ItemDelivered(
@@ -95,7 +96,7 @@ contract TransactionController {
         address _farmer,
         bool _partPayment,
         uint256 _quantity
-    ) external payable returns (uint16) {
+    ) external payable {
         if (_farmer == address(0)) revert InvalidAddress();
         if (msg.sender == address(0)) revert InvalidAddress();
 
@@ -125,9 +126,7 @@ contract TransactionController {
             _partPayment
         );
 
-        emit ItemBought(msg.sender, _farmer, _itemId, msg.value);
-
-        return _deliveryCode;
+        emit ItemBought(msg.sender, _farmer, _itemId, msg.value, _deliveryCode);
     }
 
     function verifyDelivery(
@@ -136,13 +135,9 @@ contract TransactionController {
     ) external {
         if (msg.sender == address(0)) revert InvalidAddress();
 
-        (address account, , , ) = MARKETPLACE.dispatchers(msg.sender);
-
-        if (account == address(0)) revert Unathorized();
-
         Transaction storage _transaction = transactions[_transactionId];
 
-        uint40 _deliveryCode = _transaction.deliveryCode;
+        uint16 _deliveryCode = _transaction.deliveryCode;
 
         if (_deliveryCode == 0) revert InvalidTransaction();
         if (_deliveryCode != _buyerCode) revert InvalidCode();
