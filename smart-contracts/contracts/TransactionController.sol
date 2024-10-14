@@ -29,6 +29,8 @@ contract TransactionController {
         PaymentStatus paymentStatus
     );
 
+    event FundsDeposited(address indexed farmer, uint256 amount);
+
     error InvalidAddress();
     error InsufficientAmount();
     error OutOfStock();
@@ -332,5 +334,11 @@ contract TransactionController {
         }
 
         return (total, balances[farmer]);
+    }
+
+    function depositFunds(uint256 _amount) external payable onlyRegisteredFarmers {
+        require(_amount > 0, "Amount must be greater than zero");
+        balances[msg.sender] += _amount;
+        emit FundsDeposited(msg.sender, _amount);
     }
 }
