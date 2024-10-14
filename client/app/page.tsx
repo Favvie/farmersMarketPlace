@@ -5,30 +5,31 @@ import { ArrowRight } from "lucide-react";
 export default function Home() {
 	return (
 		<>
-			<div className="container">
-				<nav className="flex items-center justify-between py-8">
-					<div className="flex items-center">
-						<Image
-							src="/logo.svg"
-							alt="AgroXchange Logo"
-							width={72}
-							height={16}
-						/>
-						<h1 className="font-semibold lg:ml-2">AgroXchange</h1>
-					</div>
+			<nav className="flex items-center justify-between py-8 w-[90%] mx-auto lg:w-[80%]">
+				<div className="flex items-center">
+					<Image
+						src="/logo.svg"
+						alt="AgroXchange Logo"
+						width={0}
+						height={0}
+						className="w-10 md:w-16"
+					/>
+					{/* <img src="" alt="" /> */}
+					<h1 className="font-semibold lg:ml-2">AgroXchange</h1>
+				</div>
 
-					<Button className="px-8">
-						<span className="font-bold">Open App</span>
-						<ArrowRight className="text-[100px]" />
-					</Button>
-				</nav>
-
+				<Button className="px-4 sm:px-6 lg:px-8">
+					<span className="font-semibold sm:font-bold">Open App</span>
+					<ArrowRight className="text-[100px]" />
+				</Button>
+			</nav>
+			<main className="container">
 				{/* hero section */}
-				<section className="flex flex-col lg:flex-row items-center justify-between py-10 lg:py-24  gap-y-10 lg:gap-y-0">
+				<section className="flex flex-col lg:flex-row items-center justify-between pt-3 pb-5 sm:py-10 lg:py-24  gap-y-10 lg:gap-y-0">
 					<div className="">
-						<div className="lg:w-[80%] space-y-8 lg:space-y-6">
-							<h2 className="font-bold text-4xl">Resolutionize Your Agricultural Commodity Purchase with Web3 Technology</h2>
-							<p>Discover a new era of agricultural trading where blockchain technology connects you directly with African farmers. Enjoy transparent, decentralized transactions that eliminate the need for middlemen, empowering you to make ethical, informed purchases while supporting sustainable farming practices. With end-to-end traceability and automated logistics, buying commodities has never been more secure or efficient</p>
+						<div className="lg:w-[80%] space-y-5 lg:space-y-6">
+							<h2 className="font-bold text-2xl sm:text-4xl">Resolutionize Your Agricultural Commodity Purchase with Web3 Technology</h2>
+							<p className="text-sm sm:text-base tracking-wide leading-5">Discover a new era of agricultural trading where blockchain technology connects you directly with African farmers. Enjoy transparent, decentralized transactions that eliminate the need for middlemen, empowering you to make ethical, informed purchases while supporting sustainable farming practices. With end-to-end traceability and automated logistics, buying commodities has never been more secure or efficient</p>
 							<Button
 								variant={"secondary"}
 								className="font-bold p-5">
@@ -276,7 +277,7 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
-			</div>
+			</main>
 			{/* footer */}
 			<footer className="bg-[#265E28]">
 				<div className="container flex flex-col lg:flex-row justify-between py-10">
