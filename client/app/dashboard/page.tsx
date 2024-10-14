@@ -5,6 +5,13 @@ import { ReportItemWrapper } from "@/components/dashboard/report-item-wrapper";
 import { Icons } from "@/components/icons";
 
 export default function DashboardPage() {
+  const filterOptions: string[] = [
+    "weekly",
+    "monthly",
+    "quarterly",
+    "annually",
+  ];
+
   return (
     <>
       <div className="bg-white text-center py-7">
@@ -34,8 +41,8 @@ export default function DashboardPage() {
 
         <DashboardSectionWrapper
           title="Profit & Revenue"
-          linkUrl="/dasboard"
-          options={["Weekly"]}
+          hasOptions
+          options={filterOptions}
         >
           <ProfitRevenueChart />
         </DashboardSectionWrapper>

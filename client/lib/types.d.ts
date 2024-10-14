@@ -15,3 +15,24 @@ export interface IProfitRevenueData {
   profit: number;
   revenue: number;
 }
+
+interface BaseDSWProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+interface WithOptions {
+  hasOptions: true;
+  options: string[];
+  linkUrl?: never;
+  linkText?: never;
+}
+
+interface WithoutOptions {
+  hasOptions?: false;
+  options?: never;
+  linkUrl: string;
+  linkText: string;
+}
+
+export type DSWProps = BaseDSWProps & (WithOptions | WithoutOptions);

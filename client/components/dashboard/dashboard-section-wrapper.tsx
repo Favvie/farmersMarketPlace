@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Select,
@@ -6,28 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-// interface HasOptions {
-//   select?: boolean;
-// }
-
-// type ConditionalProps<T> = T extends {select: true} ? {
-//   options: string[]
-// } : {
-//   link: string;
-//   option: string;
-// }
-
-// type Props = HasOptions & ConditionalProps<HasOptions>
-
-interface Props {
-  title: string;
-  linkUrl?: string;
-  linkText?: string;
-  children: React.ReactNode;
-  hasOptions?: boolean;
-  options?: string[];
-}
+import { Icons } from "../icons";
+import { useState } from "react";
+import { DSWProps } from "@/lib/types";
 
 export function DashboardSectionWrapper({
   children,
@@ -36,7 +19,7 @@ export function DashboardSectionWrapper({
   linkText,
   hasOptions = false,
   options,
-}: Props) {
+}: DSWProps) {
   return (
     <div className="bg-white px-3 py-5 rounded-[8px] space-y-[6px]">
       <div className="flex items-center justify-between">
@@ -56,25 +39,24 @@ export function DashboardSectionWrapper({
 }
 
 function Filter({ options }: { options: string[] }) {
+  const [option, setOption] = useState<string>("monthly");
+
   return (
-    // <Select value={"Weekly"}>
-    <Select value={options[0]}>
+    <Select value={option} onValueChange={setOption}>
       <SelectTrigger
-        className="w-[160px] rounded-lg sm:ml-auto"
+        className="w-[150px] rounded-[4px] ml-auto flex items-center gap-2 capitalize text-gray-0 font-medium"
         aria-label="Select a value"
       >
-        <SelectValue placeholder="Last 3 months" />
+        <Icons.calendar />
+        <SelectValue placeholder="Choose" />
       </SelectTrigger>
+
       <SelectContent className="rounded-xl">
-        <SelectItem value="90d" className="rounded-lg">
-          Last 3 months
-        </SelectItem>
-        <SelectItem value="30d" className="rounded-lg">
-          Last 30 days
-        </SelectItem>
-        <SelectItem value="7d" className="rounded-lg">
-          Last 7 days
-        </SelectItem>
+        {options.map((option) => (
+          <SelectItem value={option} className="capitalize">
+            {option}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
