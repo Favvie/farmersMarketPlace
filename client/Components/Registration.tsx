@@ -1,46 +1,51 @@
-import Image from "next/image";
-import bgImage from "../assets/images/bg.jpeg";
-import delivery from "../assets/images/Mask .png";
+"use client";
 
+import { Form, FormControl, FormLabel, FormItem, FormMessage, FormField } from "./ui/form"; 
+import {SubmitHandler, useForm} from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+
+const signupFormSchema = yup.object().shape({
+  location: yup.string().required("Please  enter your location"),
+  firstName: yup.string().required("Enter your first name"),
+  lastName: yup.string().required("Enter your last name"),
+  phoneNumber: yup.string().test("is-number", "Please enter a number", (value) => {
+    if(!value) return true;
+
+    return !isNaN(parseFloat(value)) && isFinite(+value))
+  })).required("Enter your number"),
+  membership: yup.boolean().required("You need to agree!")
+})
+
+type TSignupFormSchema = yup.InferType<typeof signupFormSchema>;
 
 export default function RegistrationScreen() {
+    const defaultValues: TSignupFormSchema = {
+      location: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      membership: false,
+    }
+
+    const form = useForm<TSignupFormSchema>({
+      resolver: yupResolver(signupFormSchema),
+      defaultValues,
+      mode: "all"
+    })
+
+    const {handleSubmit, control, formState: {errors}} = form;
+
+    const onSubmit: SubmitHandler<TSignupFormSchema> = (data) => {
+      console.log(data)
+    }
+
     return (
-      <div className="flex h-screen">
-        {/* Left side */}
-        <div
-        className="w-1/3 p-8 flex flex-col justify-between relative"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <Image src={bgImage} alt="bg" fill className="absolute top-0 left-0 object-cover opacity-10 w-full h-full"/>
-
-        <div className="flex h-screen items-center justify-center z-50">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="flex items-center">
-
-              <Image src={delivery} alt="MetaMask img" className="h-20 w-20" />
-              <span className="text-2xl font-bold text-customGreen">AgroXchange</span>
-            </div>
-
-            <div className="flex flex-col items-center">
-
-              <p className="text-black mb-6 text-xl font-bold">Select your Category</p>
-              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300">
-                Farmer/Buyer
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-  
-        {/* Right side */}
-        <div className="w-full bg-green-300 p-12 flex flex-col items-center justify-center">
-   <form className="space-y-6 w-full">
-          <div className="flex items-center space-x-4">
+<Form {...form}>
+   <form className="space-y-6 w-full" onSubmit={handleSubmit(onSubmit)}>
+          {/* <div className="flex items-center space-x-4">
             <label htmlFor="country" className="text-gray-700 text-xl text-right font-bold ">Country/Location:</label>
             <input type="text" id="country" className="border rounded-3xl mb-4 p-3 flex-1 py-5" />
           </div>
@@ -70,9 +75,67 @@ export default function RegistrationScreen() {
             <button type="submit" className="bg-green-700 text-white px-8 py-2 rounded-2xl text-lg font-semibold">
               Register
             </button>
+          </div> */}
+          <FormField
+            control={control}
+            name="location"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>
+                  Country/Location
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="Your country and/or location" {...field} />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
+          <div className="flex items-center gap-3">
+          <FormLabel>Full Name</FormLabel>
+           <FormField
+            control={control}
+            name="firstName"
+            render={({field}) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Enter your first name" {...field} />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={control}
+            name="lastName"
+            render={({field}) => (
+              <FormItem>
+               
+                <FormControl>
+                  <Input placeholder="Enter your last name" {...field} />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
           </div>
+           <FormField
+            control={control}
+            name="phoneNumber"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>
+                  Country/Location
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your phone number" {...field} />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
+          <Button type="submit" variant={"greenBtn"}>Register</Button>
         </form>
-        </div>
-      </div>
+        </Form>
     )
   }

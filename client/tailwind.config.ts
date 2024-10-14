@@ -51,6 +51,7 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			},
 			  customGreen: '#265E28',
+			  "green-2": "hsl(var(--green-2))"
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

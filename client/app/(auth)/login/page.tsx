@@ -1,4 +1,4 @@
-import LoginScreen from '@/Components/Login'
+import LoginScreen from '@/components/login'
 import React from 'react'
 
 function Login() {
