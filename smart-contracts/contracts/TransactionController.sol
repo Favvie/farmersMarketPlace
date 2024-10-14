@@ -302,11 +302,7 @@ contract TransactionController {
         emit FundsWithdrawn(msg.sender, _amount);
     }
 
-    function getFarmerTotalEarnings() external view onlyRegisteredFarmers returns (uint256) {
-        return balances[msg.sender];
-    }
-
-    function getFarmerBalance() external onlyRegisteredFarmers view returns (uint256 pendingTotal, uint256 balance) {
+    function getFarmerBalance() external view returns (uint256 pendingTotal, uint256 balance) {
         address farmer = msg.sender;
         uint256 total = 0;
 
