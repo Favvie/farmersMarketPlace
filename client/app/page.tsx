@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+// import { createThirdwebClient } from "thirdweb";
+import {client} from "../utils/client";
+
+import { ConnectButton } from "thirdweb/react";
 
 export default function Home() {
 	return (
@@ -16,11 +20,11 @@ export default function Home() {
 						/>
 						<h1 className="font-semibold lg:ml-2">AgroXchange</h1>
 					</div>
-
 					<Button className="px-8">
 						<span className="font-bold">Open App</span>
 						<ArrowRight className="text-[100px]" />
 					</Button>
+					<ConnectButton client={client} />
 				</nav>
 
 				{/* hero section */}
