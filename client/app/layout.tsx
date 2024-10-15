@@ -3,14 +3,12 @@ import "./globals.css";
 import { Outfit } from "next/font/google";
 import { ThirdwebProvider } from "thirdweb/react";
 
-
 export const metadata: Metadata = {
   title: "AgroXchange",
-  description: "Bringing Farmers Onchain",
+  description: "Putting agro-commidity on chain",
 };
 
 const outfit = Outfit({ subsets: ["latin"] });
- 
 
 export default function RootLayout({
   children,
