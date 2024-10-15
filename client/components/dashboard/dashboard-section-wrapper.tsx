@@ -53,7 +53,7 @@ function Filter({ options }: { options: string[] }) {
 
       <SelectContent className="rounded-xl">
         {options.map((option) => (
-          <SelectItem value={option} className="capitalize">
+          <SelectItem key={option} value={option} className="capitalize">
             {option}
           </SelectItem>
         ))}
