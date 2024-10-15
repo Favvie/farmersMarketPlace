@@ -8,7 +8,8 @@ contract TransactionController {
         address indexed buyer,
         address indexed farmer,
         uint256 indexed itemId,
-        uint256 amount
+        uint256 amount,
+        uint16 deliveryCode
     );
 
     event ItemDelivered(
@@ -47,6 +48,7 @@ contract TransactionController {
         Completed,
         Cancelled,
         Disputed,
+        Delivering,
         Delivered
     }
 
@@ -62,7 +64,7 @@ contract TransactionController {
         address farmer;
         address buyer;
         Status status;
-        uint40 deliveryCode;
+        uint16 deliveryCode;
         PaymentStatus paymentStatus;
     }
 
@@ -81,37 +83,31 @@ contract TransactionController {
     function buyItem(
         uint256 _itemId,
         address _farmer,
-        bool _partPayment
+        bool _partPayment,
+        uint256 _quantity
     ) external payable {
         if (_farmer == address(0)) revert InvalidAddress();
         if (msg.sender == address(0)) revert InvalidAddress();
 
-        (
-            address farmerAddress,
-            string memory name,
-            string memory location
-        ) = MARKETPLACE.farmers(_farmer);
+        (address farmerAddress, , , ) = MARKETPLACE.farmers(_farmer);
 
         if (farmerAddress == address(0)) revert InvalidAddress();
 
-        (
-            uint256 id,
-            string memory itemName,
-            string memory description,
-            uint256 itemPrice,
-            uint256 quantity,
-            address seller,
-            bool allowsInstallment
-        ) = MARKETPLACE.allListings(_itemId);
+        (, , , uint256 itemPrice, uint256 quantity, , ) = MARKETPLACE
+            .allListings(_itemId);
 
-        if (!_partPayment && msg.value < itemPrice) revert InsufficientAmount();
-        if (_partPayment && msg.value < itemPrice / 2)
-            revert InsufficientAmount();
-        if (quantity < 1) revert OutOfStock();
+        if (quantity < _quantity) revert OutOfStock();
+
+        uint256 _price = itemPrice * _quantity;
+
+        if (!_partPayment && msg.value < _price) revert InsufficientAmount();
+        if (_partPayment && msg.value < _price / 2) revert InsufficientAmount();
 
         balances[msg.sender] = balances[msg.sender] + msg.value;
 
-        createTransaction(
+        MARKETPLACE.reduceQuantity(_itemId, _quantity);
+
+        uint16 _deliveryCode = createTransaction(
             _itemId,
             msg.value,
             _farmer,
@@ -119,7 +115,7 @@ contract TransactionController {
             _partPayment
         );
 
-        emit ItemBought(msg.sender, _farmer, _itemId, msg.value);
+        emit ItemBought(msg.sender, _farmer, _itemId, msg.value, _deliveryCode);
     }
 
     function verifyDelivery(
@@ -127,11 +123,10 @@ contract TransactionController {
         uint256 _transactionId
     ) external {
         if (msg.sender == address(0)) revert InvalidAddress();
-        if (msg.sender != OWNER) revert Unathorized();
 
         Transaction storage _transaction = transactions[_transactionId];
 
-        uint40 _deliveryCode = _transaction.deliveryCode;
+        uint16 _deliveryCode = _transaction.deliveryCode;
 
         if (_deliveryCode == 0) revert InvalidTransaction();
         if (_deliveryCode != _buyerCode) revert InvalidCode();
@@ -179,11 +174,10 @@ contract TransactionController {
         address _farmer,
         address _buyer,
         bool _partPayment
-    ) private {
+    ) private returns (uint16) {
         if (msg.sender == address(0)) revert InvalidAddress();
-        if (msg.sender != OWNER) revert Unathorized();
 
-        uint40 _deliveryCode = generateCode(_farmer, _buyer, _itemId, _amount);
+        uint16 _deliveryCode = generateCode(_farmer, _buyer, _itemId, _amount);
 
         transactionId = transactionId + 1;
 
@@ -201,6 +195,8 @@ contract TransactionController {
         } else {
             _transaction.paymentStatus = PaymentStatus.FullyPaid;
         }
+
+        return _deliveryCode;
     }
 
     function payInstallment(uint256 _transactionId) external payable {
@@ -228,6 +224,20 @@ contract TransactionController {
         balances[_transaction.farmer] =
             balances[_transaction.farmer] +
             msg.value;
+    }
+
+    function startDelivery(uint256 _transactionId) external {
+        if ((msg.sender) == address(0)) revert InvalidAddress();
+
+        (address account, , , ) = MARKETPLACE.dispatchers(msg.sender);
+
+        if (account == address(0)) revert Unathorized();
+
+        Transaction storage _transaction = transactions[_transactionId];
+
+        if (_transaction.status != Status.Pending) revert InvalidTransaction();
+
+        _transaction.status = Status.Delivering;
     }
 
     function payFarmer(address _farmer, uint256 _transactionId) private {
