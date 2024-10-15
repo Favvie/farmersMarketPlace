@@ -4,42 +4,32 @@ import image2 from "../assets/images/solana.png";
 import image3 from "../assets/images/another.png";
 import image4 from "../assets/images/Mask .png";
 import bgImage from "../assets/images/bg.jpeg";
+import { SidebarContent } from "./login/sidebar-content";
 
 
 export default function LoginScreen() {
+
+  //pseudocode
+  /**
+   * connect wallet
+   * check if user is new or already registered
+   * if new => router.push("/registration") 
+   * if registered  => check if user role is farmer or buyer
+   * if farmer => router.push("/dashboard") 
+   * if buyer => router.push("/marketplace")
+   */
+
   return (
     <div className="flex h-screen">
-    
-
       <div
         className="w-1/3 p-8 flex flex-col justify-between relative"
-   
       >
-        <Image src={bgImage} alt="bg" fill className="absolute top-0 left-0 object-cover opacity-10 w-full h-full"/>
+        <div
+          className="absolute inset-0 opacity-10  bg-[url('/bg.jpeg')] bg-cover bg-center"
+        ></div>
 
         <div className="flex h-screen items-center justify-center z-50">
-          <div className="flex flex-col items-center space-y-2">
-            <div className="flex items-center">
-
-              <Image src={image4} alt="MetaMask img" className="h-20 w-20" />
-              <span className="text-2xl font-bold text-customGreen">AgroXchange</span>
-            </div>
-
-            <div className="flex flex-col items-center">
-
-              <p className="text-black mb-6 text-xl font-bold">I am a Farmer</p>
-
-              <div className="flex flex-col gap-4">
-              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300 hover:bg-green-500">
-                Register
-              </button>
-
-              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300 hover:bg-green-500">
-                Login
-              </button>
-              </div>
-            </div>
-          </div>
+          <SidebarContent/>
         </div>
 
       </div>

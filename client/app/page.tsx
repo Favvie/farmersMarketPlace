@@ -19,7 +19,7 @@ export default function Home() {
               <h1 className="font-semibold lg:ml-2">AgroXchange</h1>
             </div>
 
-            <Link href={"/dashboard"} className={`${buttonVariants()} px-8`}>
+            <Link href={"/login"} className={`${buttonVariants()} px-8`}>
               <span className="font-bold">Open App</span>
               <ArrowRight className="text-[100px]" />
             </Link>
