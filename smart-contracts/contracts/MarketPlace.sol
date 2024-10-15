@@ -2,7 +2,44 @@
 pragma solidity ^0.8.24;
 
 contract MarketPlace {
-    address public owner;
+    event UserRegistered(address indexed farmer);
+
+    event ListingAdded(
+        uint256 indexed id,
+        string indexed name,
+        string description,
+        uint256 price,
+        uint256 quantity,
+        address indexed seller
+    );
+
+    event ListingUpdated(
+        uint256 indexed id,
+        string name,
+        string description,
+        uint256 price,
+        uint256 quantity
+    );
+
+    event ListingRemoved(uint256 indexed _id, address indexed seller);
+
+    error ZeroAddressDetected();
+    error NoNameAdded();
+    error NoLocationAdded();
+    error NotListingSeller();
+    error ListingNotFound();
+    error AccountExists();
+    error OnlyOwner();
+    error OutOfStock();
+
+    address public immutable OWNER;
+
+    enum Role {
+        NotAUser,
+        Farmer,
+        Buyer,
+        Dispatch
+    }
 
     struct Listing {
         uint256 id;
@@ -14,10 +51,11 @@ contract MarketPlace {
         bool allowsInstallment;
     }
 
-    struct Farmer {
-        address farmer;
+    struct User {
+        address account;
         string name;
         string location;
+        Role role;
     }
 
     // mapping(address => mapping(uint256 => Listing)) public listings;
@@ -27,38 +65,24 @@ contract MarketPlace {
 
     mapping(uint256 => Listing) public allListings;
     mapping(address => uint256[]) public farmersListings;
-    mapping(address => Farmer) public farmers;
+    mapping(address => User) public farmers;
+    mapping(address => User) public buyers;
+    mapping(address => User) public dispatchers;
 
-    error ZeroAddressDetected();
-    error NoNameAdded();
-    error NoLocationAdded();
-    error NotListingSeller();
-    error ListingNotFound();
+    constructor() {
+        OWNER = msg.sender;
+    }
 
-    event FarmerRegistered(address indexed farmer);
-    event ListingAdded(
-        uint256 indexed id,
-        string indexed name,
-        string description,
-        uint256 price,
-        uint256 quantity,
-        address indexed seller
-    );
-    event ListingUpdated(
-        uint256 indexed id,
-        string name,
-        string description,
-        uint256 price,
-        uint256 quantity
-    );
-    event ListingRemoved(uint256 indexed _id, address indexed seller);
-
-    function registerFarmer(
-        address _farmer,
+    function registerUser(
+        address _account,
         string memory _name,
-        string memory _location
+        string memory _location,
+        Role _role
     ) external {
-        if (_farmer == address(0)) {
+        if (msg.sender == address(0)) revert ZeroAddressDetected();
+        if (msg.sender != OWNER) revert OnlyOwner();
+
+        if (_account == address(0)) {
             revert ZeroAddressDetected();
         }
 
@@ -70,9 +94,37 @@ contract MarketPlace {
             revert NoLocationAdded();
         }
 
-        farmers[_farmer] = Farmer(_farmer, _name, _location);
+        if (_role == Role.Farmer) {
+            if (farmers[_account].account != address(0)) revert AccountExists();
 
-        emit FarmerRegistered(_farmer);
+            farmers[_account] = User(_account, _name, _location, Role.Farmer);
+        } else {
+            if (buyers[_account].account != address(0)) revert AccountExists();
+
+            buyers[_account] = User(_account, _name, _location, Role.Buyer);
+        }
+
+        emit UserRegistered(_account);
+    }
+
+    function updateUserLocation(string memory _location, Role _role) external {
+        if (msg.sender == address(0)) revert ZeroAddressDetected();
+
+        if (bytes(_location).length == 0) {
+            revert NoLocationAdded();
+        }
+
+        User storage _user;
+
+        if (_role == Role.Buyer) {
+            _user = buyers[msg.sender];
+        } else {
+            _user = farmers[msg.sender];
+        }
+
+        if (_user.account == address(0)) revert ZeroAddressDetected();
+
+        _user.location = _location;
     }
 
     function addListing(
@@ -83,11 +135,12 @@ contract MarketPlace {
         bool _allowsInstallment
     ) external {
         require(
-            farmers[msg.sender].farmer != address(0),
+            farmers[msg.sender].account != address(0),
             "Farmer not registered"
         );
         require(_price > 0, "Price must be greater than zero");
         require(_quantity > 0, "Quantity must be greater than zero");
+
         if (msg.sender != address(0)) {
             currentListingIds++;
 
@@ -151,6 +204,14 @@ contract MarketPlace {
             }
             revert ZeroAddressDetected();
         }
+    }
+
+    function reduceQuantity(uint256 _listingId, uint256 _reduction) external {
+        Listing storage _listing = allListings[_listingId];
+
+        if (_listing.quantity < _reduction) revert OutOfStock();
+
+        _listing.quantity = _listing.quantity - _reduction;
     }
 
     function removeListing(uint256 _id) external {
