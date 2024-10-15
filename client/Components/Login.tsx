@@ -13,11 +13,7 @@ export default function LoginScreen() {
 
       <div
         className="w-1/3 p-8 flex flex-col justify-between relative"
-        style={{
-          backgroundImage: `url(${bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+   
       >
         <Image src={bgImage} alt="bg" fill className="absolute top-0 left-0 object-cover opacity-10 w-full h-full"/>
 
