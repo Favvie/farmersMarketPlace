@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import delivery from "@/assets/images/Mask .png";
-import BuyerRegistration from '@/Components/buyer-registration';
+import BuyerRegistration from '@/components/buyer-registration';
 
 function Registration() {
   return (

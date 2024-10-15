@@ -1,12 +1,12 @@
 "use client";
 
-import { Form, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Input } from "./ui/input";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "./ui/form";
-import { Checkbox } from "./ui/checkbox";
-import { Button } from "./ui/button";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 const signupFormSchema = yup.object().shape({
   location: yup.string().required("Please enter your country and/or location"),
