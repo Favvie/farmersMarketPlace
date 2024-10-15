@@ -2,6 +2,10 @@ import Image from "next/image";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+// import { createThirdwebClient } from "thirdweb";
+import { client } from "../utils/client";
+
+import { ConnectButton } from "thirdweb/react";
 
 export default function Home() {
   return (
@@ -23,6 +27,8 @@ export default function Home() {
               <span className="font-bold">Open App</span>
               <ArrowRight className="text-[100px]" />
             </Link>
+
+				<ConnectButton client={client} />
           </nav>
         </header>
 
