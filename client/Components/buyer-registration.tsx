@@ -3,10 +3,10 @@
 import { Form, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "./ui/form";
 import { Checkbox } from "./ui/checkbox";
+import { Button } from "./ui/button";
 
 const signupFormSchema = yup.object().shape({
   location: yup.string().required("Please enter your country and/or location"),
@@ -17,7 +17,7 @@ const signupFormSchema = yup.object().shape({
 
 type TSignupFormSchema = yup.InferType<typeof signupFormSchema>;
 
-export default function RegistrationScreen() {
+export default function BuyerRegistration() {
   const defaultValues: TSignupFormSchema = {
     location: "",
     firstName: "",

@@ -27,10 +27,17 @@ export default function LoginScreen() {
 
             <div className="flex flex-col items-center">
 
-              <p className="text-black mb-6 text-xl font-bold">Select your Category</p>
-              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300">
-                Buyer
+              <p className="text-black mb-6 text-xl font-bold">I am a Farmer</p>
+
+              <div className="flex flex-col gap-4">
+              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300 hover:bg-green-500">
+                Register
               </button>
+
+              <button className="bg-green-600 text-white text-xl font-semibold px-8 py-2 border border-white w-11/12 shadow-gray-500 rounded-full shadow-lg hover:bg-green-600 transition duration-300 hover:bg-green-500">
+                Login
+              </button>
+              </div>
             </div>
           </div>
         </div>

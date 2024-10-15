@@ -1,7 +1,7 @@
-import RegistrationScreen from '@/components/registration'
 import React from 'react'
 import Image from 'next/image'
 import delivery from "@/assets/images/Mask .png";
+import BuyerRegistration from '@/Components/buyer-registration';
 
 function Registration() {
   return (
@@ -37,7 +37,7 @@ function Registration() {
 
   
       <div className="w-2/3 bg-green-300 p-12 flex flex-col items-center justify-center">
-        <RegistrationScreen />
+        <BuyerRegistration />
       </div>
     </div>
   )

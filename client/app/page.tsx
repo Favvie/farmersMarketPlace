@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/Components/ui/button";
 
 export default function Home() {
 	return (
@@ -18,10 +19,10 @@ export default function Home() {
 					<h1 className="font-semibold lg:ml-2">AgroXchange</h1>
 				</div>
 
-				<Button className="px-4 sm:px-6 lg:px-8">
+				<Link href={"/registration"} className={buttonVariants({}) + "px-4 sm:px-6 lg:px-8"}>
 					<span className="font-semibold sm:font-bold">Open App</span>
 					<ArrowRight className="text-[100px]" />
-				</Button>
+				</Link>
 			</nav>
 			<main className="container">
 				{/* hero section */}
