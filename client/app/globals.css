@@ -40,6 +40,19 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    --blue-0: 215, 87%, 61%;
+    --blue-1: 215, 84%, 36%;
+
+    --gray-0: 221, 13%, 42%;
+
+    --green-0: 123, 45%, 51%;
+
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -66,6 +79,19 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --blue-0: 215, 87%, 61%;
+    --blue-1: 215, 84%, 36%;
+
+    --gray-0: 221, 13%, 42%;
+
+    --green-0: 123, 45%, 51%;
+
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
   }
 }
 
@@ -83,10 +109,35 @@ body {
   margin: 0 auto;
 }
 
-@media screen and (min-width: 768px) {
-  .container {
-  width: 80%;
-  margin: 0 auto;
-}
+.bg-marketplace {
+  /* background-image: url('/marketPlace.png'); */
+  background-size: cover; /* Ensures the image covers the entire div */
+  background-position: center;
+  background-repeat: no-repeat;
+
+  object-fit: cover; /* Centers the image */
+  width: 100%;
 }
 
+.bg-marketplace::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: hsla(
+    122,
+    42%,
+    26%,
+    0.4
+  ); /* Green overlay with 50% opacity */
+  z-index: 0; /* Ensure the overlay is behind the text */
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
