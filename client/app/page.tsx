@@ -120,11 +120,11 @@ export default function Home() {
 
 				{/* agroxchange products */}
 				<section className="py-10">
-					<h2 className="text-[#265E28] font-bold text-4xl lg:text-5xl py-5">AgroXchange Products</h2>
+					<h2 className="text-[#265E28] font-bold text-4xl lg:text-5xl py-6">AgroXchange Products</h2>
 					<div className="flex flex-col gap-y-7 lg:flex-row lg:gap-x-5">
 						<div className="flex flex-col bg-[#6AAC6D] p-5 rounded-[15px] gap-y-2 h-[450px]">
 							<Image
-								src={"/seeds.png"}
+								src={"/seeds.svg"}
 								alt={"seeds"}
 								width={400}
 								height={600}
@@ -137,7 +137,7 @@ export default function Home() {
 
 						<div className="flex flex-col bg-[#6AAC6D] p-5 rounded-[15px] gap-y-2 h-[450px]">
 							<Image
-								src={"/seeds.png"}
+								src={"/seeds.svg"}
 								alt={"seeds"}
 								width={400}
 								height={600}
@@ -150,7 +150,7 @@ export default function Home() {
 
 						<div className="flex flex-col bg-[#6AAC6D] p-5 rounded-[15px] gap-y-2 h-[450px]">
 							<Image
-								src={"/seeds.png"}
+								src={"/seeds.svg"}
 								alt={"seeds"}
 								width={400}
 								height={600}
@@ -163,7 +163,7 @@ export default function Home() {
 
 						<div className="flex flex-col bg-[#6AAC6D] p-5 rounded-[15px] gap-y-2 h-[450px]">
 							<Image
-								src={"/seeds.png"}
+								src={"/seeds.svg"}
 								alt={"seeds"}
 								width={400}
 								height={600}
