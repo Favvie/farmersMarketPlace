@@ -1,11 +1,11 @@
 "use client";
 
-import { Form, FormControl, FormLabel, FormItem, FormMessage, FormField } from "./ui/form";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Form, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "./ui/form";
 import { Checkbox } from "./ui/checkbox";
 
 const signupFormSchema = yup.object().shape({
