@@ -30,6 +30,8 @@ contract TransactionController {
         PaymentStatus paymentStatus
     );
 
+    event FundsDeposited(address indexed farmer, uint256 amount);
+
     error InvalidAddress();
     error InsufficientAmount();
     error OutOfStock();
@@ -73,12 +75,21 @@ contract TransactionController {
     mapping(uint256 => Transaction) public transactions;
     mapping(address => uint256) public balances;
 
+    event FundsWithdrawn(address farmer, uint256 amount);
+    event FundsTransferred(address sender, address receiver, uint256 amount);
+
     constructor(address _marketPlace) {
         MARKETPLACE = MarketPlace(_marketPlace);
         OWNER = msg.sender;
     }
 
     receive() external payable {}
+
+    modifier onlyRegisteredFarmers() {
+        (address farmerAddress, , , ) = MARKETPLACE.farmers(msg.sender);
+        require(farmerAddress != address(0), "Farmer not registered");
+        _;
+    }
 
     function buyItem(
         uint256 _itemId,
@@ -281,4 +292,29 @@ contract TransactionController {
 
         return uint16(randomFourDigits);
     }
+
+    function withdrawFunds(uint256 _amount) external onlyRegisteredFarmers {
+        require(_amount > 0, "Amount must be greater than zero");
+        require(balances[msg.sender] >= _amount, "Insufficient funds to withdraw");
+        balances[msg.sender] = balances[msg.sender] - _amount;
+        (bool success, ) = payable(msg.sender).call{value: _amount}("");
+        require(success, "Withdrawal failed");
+        emit FundsWithdrawn(msg.sender, _amount);
+    }
+
+    function getFarmerBalance() external view returns (uint256 pendingTotal, uint256 balance) {
+        address farmer = msg.sender;
+        uint256 total = 0;
+
+        for (uint i = 1; i <= transactionId; i++) {
+            Transaction storage transaction = transactions[i];
+
+            if (transaction.farmer == farmer && transaction.status == Status.Pending) {
+                total += transaction.amount;
+            }
+        }
+
+        return (total, balances[farmer]);
+    }
+
 }
