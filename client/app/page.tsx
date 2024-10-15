@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 // import { createThirdwebClient } from "thirdweb";
-import {client} from "../utils/client";
+import { client } from "../utils/client";
 
 import { ConnectButton } from "thirdweb/react";
 
@@ -26,6 +26,8 @@ export default function Home() {
 					<span className="font-semibold sm:font-bold">Open App</span>
 					<ArrowRight className="text-[100px]" />
 				</Button>
+
+				<ConnectButton client={client} />
 			</nav>
 			<main className="container">
 				{/* hero section */}
