@@ -1,5 +1,5 @@
-import BuyerRegistration from '@/components/buyer-registration';
-import { SidebarContent } from '@/components/login/sidebar-content';
+import BuyerRegistration from '@/componentsx/buyer-registration';
+import { SidebarContent } from '@/componentsx/login/sidebar-content';
 
 function Registration() {
   return (

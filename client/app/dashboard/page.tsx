@@ -1,8 +1,8 @@
-import { DashboardSectionWrapper } from "@/components/dashboard/dashboard-section-wrapper";
-import { ProductSalesTable } from "@/components/dashboard/product-sales-table";
-import { ProfitRevenueChart } from "@/components/dashboard/profit-revenue-chart";
-import { ReportItemWrapper } from "@/components/dashboard/report-item-wrapper";
-import { Icons } from "@/components/icons";
+import { DashboardSectionWrapper } from "@/componentsx/dashboard/dashboard-section-wrapper";
+import { ProductSalesTable } from "@/componentsx/dashboard/product-sales-table";
+import { ProfitRevenueChart } from "@/componentsx/dashboard/profit-revenue-chart";
+import { ReportItemWrapper } from "@/componentsx/dashboard/report-item-wrapper";
+import { Icons } from "@/componentsx/icons";
 
 export default function DashboardPage() {
   const filterOptions: string[] = [
