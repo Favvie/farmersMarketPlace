@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Outfit } from "next/font/google";
+import { ThirdwebProvider } from "thirdweb/react";
+import WalletProvider from "@/context/wallet";
 
 export const metadata: Metadata = {
   title: "AgroXchange",
@@ -16,7 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={outfit.className}>{children}</body>
+      <body className={outfit.className}>
+        <ThirdwebProvider>
+          <WalletProvider>{children}</WalletProvider>
+        </ThirdwebProvider>
+      </body>
     </html>
   );
 }
