@@ -80,7 +80,7 @@ contract MarketPlace {
         Role _role
     ) external {
         if (msg.sender == address(0)) revert ZeroAddressDetected();
-        if (msg.sender != OWNER) revert OnlyOwner();
+
 
         if (_account == address(0)) {
             revert ZeroAddressDetected();
