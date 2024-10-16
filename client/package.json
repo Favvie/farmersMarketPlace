@@ -27,6 +27,7 @@
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0"
+    "thirdweb": "^5.61.6"
   },
   "devDependencies": {
     "@types/node": "^20",
