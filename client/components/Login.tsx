@@ -2,8 +2,6 @@ import Image from "next/image";
 import image1 from "../assets/images/meta.png";
 import image2 from "../assets/images/solana.png";
 import image3 from "../assets/images/another.png";
-import image4 from "../assets/images/Mask .png";
-import bgImage from "../assets/images/bg.jpeg";
 import { SidebarContent } from "./login/sidebar-content";
 
 
