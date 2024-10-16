@@ -1,4 +1,4 @@
-import LoginScreen from "@/componentsx/Login";
+import LoginScreen from "@/components/Login";
 
 function Login() {
 	return <LoginScreen />;
