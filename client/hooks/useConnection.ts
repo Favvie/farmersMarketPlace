@@ -6,6 +6,7 @@ import { createWallet } from "thirdweb/wallets";
 import { client } from "@/utils/client";
 
 export function useConnection() {
+  //
   const { connect } = useConnect();
 
   return useCallback(() => {
