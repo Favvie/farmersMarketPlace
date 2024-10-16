@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useWallet } from "@/context/wallet";
 import { client } from "@/utils/client";
 import { useMarketplaceContract } from "@/hooks/useMarketplaceContract";
+import { useRouter } from "next/navigation";
 
 export default function LoginScreen() {
   //pseudocode
@@ -21,21 +22,52 @@ export default function LoginScreen() {
    * if farmer => router.push("/dashboard")
    * if buyer => router.push("/marketplace")
    */
-
   const { setUserAddress } = useWallet();
 
   const activeAccount = useActiveAccount();
 
-  const { buyers, buyersLoading, buyersError } = useMarketplaceContract();
+  const {
+    buyers,
+    buyersLoading,
+    buyersError,
+    farmers,
+    farmersError,
+    farmersLoading,
+  } = useMarketplaceContract();
+
+  const router = useRouter();
 
   useEffect(() => {
     if (activeAccount?.address) {
       setUserAddress(activeAccount.address);
+
+      if (farmersError) console.log(farmersError);
+      if (farmersLoading) console.log("farmloading");
+
+      if (farmers?.[3] === 1) {
+        router.push("/dashboard");
+      }
+
       if (buyersError) console.log(buyersError);
       if (buyersLoading) console.log("loading");
-      console.log(buyers);
+
+      if (buyers?.[3] === 2) {
+        router.push("/marketplace");
+      } else {
+        router.push("/registration");
+      }
     }
-  }, [activeAccount, buyers, buyersError, buyersLoading, setUserAddress]);
+  }, [
+    activeAccount,
+    buyers,
+    buyersError,
+    buyersLoading,
+    farmers,
+    farmersError,
+    farmersLoading,
+    router,
+    setUserAddress,
+  ]);
 
   return (
     <div className="flex h-screen">

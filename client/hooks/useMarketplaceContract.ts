@@ -1,5 +1,6 @@
 "use client";
 
+import { useWallet } from "@/context/wallet";
 import { MARKETPLACEADDRESS } from "@/lib/constants";
 import { client } from "@/utils/client";
 import { defineChain, getContract } from "thirdweb";
@@ -8,6 +9,8 @@ import { useReadContract } from "thirdweb/react";
 const liskSepolia = defineChain(4202);
 
 export const useMarketplaceContract = () => {
+  const { userAddress } = useWallet();
+
   const marketplaceContract = getContract({
     client,
     address: MARKETPLACEADDRESS,
@@ -21,8 +24,8 @@ export const useMarketplaceContract = () => {
   } = useReadContract({
     contract: marketplaceContract,
     method:
-      "function farmers() public view returns (address account, string memory name, string memory location, Role role)",
-    params: [],
+      "function farmers(address key) public view returns (address account, string memory name, string memory location, uint8 role)",
+    params: [userAddress],
   });
 
   const {
@@ -32,8 +35,8 @@ export const useMarketplaceContract = () => {
   } = useReadContract({
     contract: marketplaceContract,
     method:
-      "function buyers() public view returns (address account, string memory name, string memory location, Role role)",
-    params: [],
+      "function buyers(address key) public view returns (address account, string memory name, string memory location, uint8 role)",
+    params: [userAddress],
   });
 
   return {
@@ -45,3 +48,7 @@ export const useMarketplaceContract = () => {
     buyersError,
   };
 };
+
+// export function useGetFarmer(address: string) {
+
+// }
