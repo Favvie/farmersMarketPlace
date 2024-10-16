@@ -2,10 +2,6 @@ import Image from "next/image";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-// import { createThirdwebClient } from "thirdweb";
-import { client } from "../utils/client";
-
-import { ConnectButton } from "thirdweb/react";
 
 export default function Home() {
 	return (
@@ -24,16 +20,13 @@ export default function Home() {
 						</div>
 
 						<Link
-							href={"/dashboard"}
+							href={"/login"}
 							className={`${buttonVariants()} px-8`}>
 							<span className="font-bold">Open App</span>
 							<ArrowRight className="text-[100px]" />
 						</Link>
-
-						<ConnectButton client={client} />
 					</nav>
 				</header>
-
 				{/* hero section */}
 				<section className="flex flex-col lg:flex-row items-center justify-between py-10 lg:py-24  gap-y-10 lg:gap-y-0">
 					<div className="">
