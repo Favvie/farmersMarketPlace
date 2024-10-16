@@ -2,10 +2,6 @@ import Image from "next/image";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-// import { createThirdwebClient } from "thirdweb";
-// import { client } from "../utils/client";
-
-// import { ConnectButton } from "thirdweb/react";
 
 export default function Home() {
   return (
@@ -23,10 +19,6 @@ export default function Home() {
               <h1 className="font-semibold lg:ml-2">AgroXchange</h1>
             </div>
 
-            <Link href={"/dashboard"} className={`${buttonVariants()} px-8`}>
-              <span className="font-bold">Open App</span>
-              <ArrowRight className="text-[100px]" />
-            </Link>
             <Link href={"/login"} className={`${buttonVariants()} px-8`}>
               <span className="font-bold">Open App</span>
               <ArrowRight className="text-[100px]" />
