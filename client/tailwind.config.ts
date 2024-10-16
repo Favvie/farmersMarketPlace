@@ -54,6 +54,8 @@ const config: Config = {
         "blue-1": "hsl(var(--blue-1))",
         "gray-0": "hsl(var(--gray-0))",
         "green-0": "hsl(var(--green-0))",
+        customGreen: '#265E28',
+			  "green-2": "hsl(var(--green-2))"
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -61,6 +63,12 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
     },
+  },
+  fontFamily: {
+	instrument: ['"Instrument Sans"', 'sans-serif'],
+  },
+  boxShadow: {
+	'3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
   },
   plugins: [require("tailwindcss-animate")],
 };
