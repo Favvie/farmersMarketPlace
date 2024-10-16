@@ -12,15 +12,7 @@ import { client } from "@/utils/client";
 import { useMarketplaceContract } from "@/hooks/useMarketplaceContract";
 
 export default function LoginScreen() {
-  //pseudocode
-  /**
-   * connect wallet
-   * check if user is new or already registered
-   * if new => router.push("/registration")
-   * if registered  => check if user role is farmer or buyer
-   * if farmer => router.push("/dashboard")
-   * if buyer => router.push("/marketplace")
-   */
+
 
   const { setUserAddress } = useWallet();
 
