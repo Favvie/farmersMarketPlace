@@ -15,7 +15,6 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-select": "^2.1.2",
-    "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.452.0",
@@ -26,7 +25,7 @@
     "recharts": "^2.13.0",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
     "thirdweb": "^5.61.6"
   },
   "devDependencies": {
