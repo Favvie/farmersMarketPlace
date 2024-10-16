@@ -31,6 +31,8 @@ contract TransactionController {
     );
 
     event FundsDeposited(address indexed farmer, uint256 amount);
+    event FundsWithdrawn(address farmer, uint256 amount);
+    event FundsTransferred(address sender, address receiver, uint256 amount);
 
     error InvalidAddress();
     error InsufficientAmount();
@@ -42,7 +44,6 @@ contract TransactionController {
     error InvalidCode();
 
     MarketPlace immutable MARKETPLACE;
-
     address immutable OWNER;
 
     enum Status {
@@ -75,8 +76,9 @@ contract TransactionController {
     mapping(uint256 => Transaction) public transactions;
     mapping(address => uint256) public balances;
 
-    event FundsWithdrawn(address farmer, uint256 amount);
-    event FundsTransferred(address sender, address receiver, uint256 amount);
+    // New mappings for buyer transactions
+    mapping(address => uint256[]) private buyerUnverifiedTransactions;
+    mapping(address => uint256[]) private buyerAllTransactions;
 
     constructor(address _marketPlace) {
         MARKETPLACE = MarketPlace(_marketPlace);
@@ -144,6 +146,9 @@ contract TransactionController {
 
         _transaction.status = Status.Delivered;
 
+        // Remove the transaction ID from the buyer's unverified transactions
+        removeUnverifiedTransaction(_transaction.buyer, _transactionId);
+
         payFarmer(_transaction.farmer, _transactionId);
 
         emit ItemDelivered(
@@ -159,7 +164,7 @@ contract TransactionController {
         Transaction storage _transaction = transactions[_transactionId];
 
         if (
-            msg.sender != _transaction.buyer ||
+            msg.sender != _transaction.buyer &&
             msg.sender != _transaction.farmer
         ) revert Unathorized();
 
@@ -171,6 +176,9 @@ contract TransactionController {
 
         (bool sent, ) = msg.sender.call{value: _transaction.amount}("");
         require(sent, "Failed to transfer!");
+
+        // Remove the transaction ID from the buyer's unverified transactions
+        removeUnverifiedTransaction(_transaction.buyer, _transactionId);
 
         emit TransactionCancelled(
             msg.sender,
@@ -206,6 +214,12 @@ contract TransactionController {
         } else {
             _transaction.paymentStatus = PaymentStatus.FullyPaid;
         }
+
+        // Add the new transaction ID to the buyer's unverified transactions
+        buyerUnverifiedTransactions[_buyer].push(transactionId);
+
+        // Add the new transaction ID to the buyer's all transactions
+        buyerAllTransactions[_buyer].push(transactionId);
 
         return _deliveryCode;
     }
@@ -317,4 +331,43 @@ contract TransactionController {
         return (total, balances[farmer]);
     }
 
+    function getBuyerUnverifiedOrders() external view returns (uint256[] memory) {
+        return buyerUnverifiedTransactions[msg.sender];
+    }
+
+    function getBuyerAllPurchases() external view returns (uint256[] memory) {
+        return buyerAllTransactions[msg.sender];
+    }
+
+    function getBuyerPurchaseDetails(uint256 _transactionId) external view returns (
+        uint256 itemId,
+        uint256 amount,
+        address farmer,
+        Status status,
+        PaymentStatus paymentStatus
+    ) {
+        Transaction storage txn = transactions[_transactionId];
+        require(txn.buyer == msg.sender, "Not the buyer of this transaction");
+
+        return (
+            txn.itemId,
+            txn.amount,
+            txn.farmer,
+            txn.status,
+            txn.paymentStatus
+        );
+    }
+
+    function removeUnverifiedTransaction(address _buyer, uint256 _transactionId) private {
+        uint256[] storage unverifiedTxns = buyerUnverifiedTransactions[_buyer];
+        for (uint256 i = 0; i < unverifiedTxns.length; i++) {
+            if (unverifiedTxns[i] == _transactionId) {
+                // Replace the found element with the last element
+                unverifiedTxns[i] = unverifiedTxns[unverifiedTxns.length - 1];
+                // Remove the last element
+                unverifiedTxns.pop();
+                break;
+            }
+        }
+    }
 }
