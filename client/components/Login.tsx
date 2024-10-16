@@ -9,6 +9,7 @@ import { ConnectButton, darkTheme, useActiveAccount } from "thirdweb/react";
 import { useEffect } from "react";
 import { useWallet } from "@/context/wallet";
 import { client } from "@/utils/client";
+import { useMarketplaceContract } from "@/hooks/useMarketplaceContract";
 
 export default function LoginScreen() {
   //pseudocode
@@ -25,11 +26,16 @@ export default function LoginScreen() {
 
   const activeAccount = useActiveAccount();
 
+  const { buyers, buyersLoading, buyersError } = useMarketplaceContract();
+
   useEffect(() => {
     if (activeAccount?.address) {
       setUserAddress(activeAccount.address);
+      if (buyersError) console.log(buyersError);
+      if (buyersLoading) console.log("loading");
+      console.log(buyers);
     }
-  }, [activeAccount, setUserAddress]);
+  }, [activeAccount, buyers, buyersError, buyersLoading, setUserAddress]);
 
   return (
     <div className="flex h-screen">
@@ -46,8 +52,8 @@ export default function LoginScreen() {
           Connect your wallet
         </h1>
         <p className="text-2xl text-white font-semibold mb-12 p-4">
-          Gain access to Link your personal wallet or create a new wallet with
-          your credentials
+          Gain access to the marketplace by linking your personal wallet or
+          create a new wallet with your credentials
         </p>
 
         <div className="flex space-x-8 mb-8">

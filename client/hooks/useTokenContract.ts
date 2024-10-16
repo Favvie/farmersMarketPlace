@@ -1,15 +1,17 @@
+import { TOKENADDRESS } from "@/lib/constants";
 import { client } from "@/utils/client";
 import { useCallback } from "react";
-import { getContract } from "thirdweb";
-import { baseSepolia } from "thirdweb/chains";
+import { defineChain, getContract } from "thirdweb";
+
+const liskSepolia = defineChain(4202);
 
 export const useTokenContract = () => {
   return useCallback(
     () =>
       getContract({
         client,
-        address: "",
-        chain: baseSepolia,
+        address: TOKENADDRESS,
+        chain: liskSepolia,
       }),
     []
   );
