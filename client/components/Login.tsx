@@ -10,24 +10,69 @@ import { useEffect } from "react";
 import { useWallet } from "@/context/wallet";
 import { client } from "@/utils/client";
 import { useMarketplaceContract } from "@/hooks/useMarketplaceContract";
+import { useRouter } from "next/navigation";
 
 export default function LoginScreen() {
+<<<<<<< HEAD
 
 
+=======
+  //pseudocode
+  /**
+   * connect wallet
+   * check if user is new or already registered
+   * if new => router.push("/registration")
+   * if registered  => check if user role is farmer or buyer
+   * if farmer => router.push("/dashboard")
+   * if buyer => router.push("/marketplace")
+   */
+>>>>>>> c8040b3729bb6f0003283a89bc4cd208cf9c0975
   const { setUserAddress } = useWallet();
 
   const activeAccount = useActiveAccount();
 
-  const { buyers, buyersLoading, buyersError } = useMarketplaceContract();
+  const {
+    buyers,
+    buyersLoading,
+    buyersError,
+    farmers,
+    farmersError,
+    farmersLoading,
+  } = useMarketplaceContract();
+
+  const router = useRouter();
 
   useEffect(() => {
     if (activeAccount?.address) {
       setUserAddress(activeAccount.address);
+
+      if (farmersError) console.log(farmersError);
+      if (farmersLoading) console.log("farmloading");
+
+      if (farmers?.[3] === 1) {
+        router.push("/dashboard");
+      }
+
       if (buyersError) console.log(buyersError);
       if (buyersLoading) console.log("loading");
-      console.log(buyers);
+
+      if (buyers?.[3] === 2) {
+        router.push("/marketplace");
+      } else {
+        router.push("/registration");
+      }
     }
-  }, [activeAccount, buyers, buyersError, buyersLoading, setUserAddress]);
+  }, [
+    activeAccount,
+    buyers,
+    buyersError,
+    buyersLoading,
+    farmers,
+    farmersError,
+    farmersLoading,
+    router,
+    setUserAddress,
+  ]);
 
   return (
     <div className="flex h-screen">
