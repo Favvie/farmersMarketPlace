@@ -1,3 +1,12 @@
+import ProductModal from "@/components/dashboard/product-listing-modal";
+
 export default function ListingPage() {
-  return <h1>Coming soon.....</h1>;
+  return (
+    <div>
+      <div className="flex items-cente pl-5">
+        <h1 className="font-semibold text-2xl">Your products</h1>
+        <ProductModal/>\
+      </div>
+    </div>
+  )
 }
