@@ -16,7 +16,7 @@ export function NavItemWrapper({ item, pathname, children }: Props) {
       {children}
       <span
         className={clsx("font-medium hover:text-blue-0", {
-          "text-blue-0": pathname === href,
+          "text-green-0": pathname === href,
         })}
       >
         {title}

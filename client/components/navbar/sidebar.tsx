@@ -26,7 +26,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
                 <NavItemWrapper item={SIDEBAR_ITEMS[0]} pathname={pathname}>
                   <Icons.home
                     stroke={
-                      pathname === SIDEBAR_ITEMS[0].href ? "#448DF2" : "#5D6679"
+                      pathname === SIDEBAR_ITEMS[0].href ? "#4ABA4F" : "#5D6679"
                     }
                   />
                 </NavItemWrapper>
