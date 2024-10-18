@@ -36,37 +36,39 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
             <Icons.logo />
           </Link>
 
-          <nav className="flex flex-1 flex-col justify-between overflow-auto">
-            <ul className="space-y-[12px] py-2 px-4">
-              <li>
-                <NavItemWrapper item={SIDEBAR_ITEMS[0]} pathname={pathname}>
-                  <Icons.home
-                    stroke={
-                      pathname === SIDEBAR_ITEMS[0].href ? "#448DF2" : "#5D6679"
-                    }
-                  />
-                </NavItemWrapper>
-              </li>
+					<nav className="flex flex-1 flex-col justify-between overflow-auto">
+						<ul className="space-y-[12px] py-2 px-4">
+							<li>
+								<NavItemWrapper
+									item={SIDEBAR_ITEMS[0]}
+									pathname={pathname}>
+									<Icons.home stroke={pathname === SIDEBAR_ITEMS[0].href ? "#4ABA4F" : "#5D6679"} />
+								</NavItemWrapper>
+							</li>
 
-              <li>
-                <NavItemWrapper item={SIDEBAR_ITEMS[1]} pathname={pathname}>
-                  <Icons.trolley
-                    fill={
-                      pathname === SIDEBAR_ITEMS[1].href ? "#448DF2" : "#5D6679"
-                    }
-                  />
-                </NavItemWrapper>
-              </li>
+							<li>
+								<NavItemWrapper
+									item={SIDEBAR_ITEMS[1]}
+									pathname={pathname}>
+									<Icons.trolley fill={pathname === SIDEBAR_ITEMS[1].href ? "#448DF2" : "#5D6679"} />
+								</NavItemWrapper>
+							</li>
 
-              <li>
-                <NavItemWrapper item={SIDEBAR_ITEMS[2]} pathname={pathname}>
-                  <Icons.report
-                    fill={
-                      pathname === SIDEBAR_ITEMS[2].href ? "#448DF2" : "#5D6679"
-                    }
-                  />
-                </NavItemWrapper>
-              </li>
+							<li>
+								<NavItemWrapper
+									item={SIDEBAR_ITEMS[2]}
+									pathname={pathname}>
+									<Icons.report fill={pathname === SIDEBAR_ITEMS[2].href ? "#448DF2" : "#5D6679"} />
+								</NavItemWrapper>
+							</li>
+
+							<li>
+								<NavItemWrapper
+									item={SIDEBAR_ITEMS[3]}
+									pathname={pathname}>
+									<Icons.box fill={pathname === SIDEBAR_ITEMS[3].href ? "#448DF2" : "#5D6679"} />
+								</NavItemWrapper>
+							</li>
 
               <li>
                 <NavItemWrapper item={SIDEBAR_ITEMS[3]} pathname={pathname}>
