@@ -5,10 +5,12 @@ import image1 from "../assets/images/meta.png";
 import image2 from "../assets/images/solana.png";
 import image3 from "../assets/images/another.png";
 import { SidebarContent } from "@/components/login/sidebar-content";
-import { useActiveAccount } from "thirdweb/react";
+import { ConnectButton, darkTheme, useActiveAccount } from "thirdweb/react";
 import { useEffect } from "react";
 import { useWallet } from "@/context/wallet";
-import { useConnection } from "@/hooks/useConnection";
+import { client } from "@/utils/client";
+import { useMarketplaceContract } from "@/hooks/useMarketplaceContract";
+import { useRouter } from "next/navigation";
 
 export default function LoginScreen() {
   //pseudocode
@@ -20,18 +22,52 @@ export default function LoginScreen() {
    * if farmer => router.push("/dashboard")
    * if buyer => router.push("/marketplace")
    */
-
   const { setUserAddress } = useWallet();
 
   const activeAccount = useActiveAccount();
 
-  const connect = useConnection();
+  const {
+    buyers,
+    buyersLoading,
+    buyersError,
+    farmers,
+    farmersError,
+    farmersLoading,
+  } = useMarketplaceContract();
+
+  const router = useRouter();
 
   useEffect(() => {
     if (activeAccount?.address) {
       setUserAddress(activeAccount.address);
+
+      if (farmersError) console.log(farmersError);
+      if (farmersLoading) console.log("farmloading");
+
+      if (farmers?.[3] === 1) {
+        router.push("/dashboard");
+      }
+
+      if (buyersError) console.log(buyersError);
+      if (buyersLoading) console.log("loading");
+
+      if (buyers?.[3] === 2) {
+        router.push("/marketplace");
+      } else {
+        router.push("/registration");
+      }
     }
-  }, [activeAccount, setUserAddress]);
+  }, [
+    activeAccount,
+    buyers,
+    buyersError,
+    buyersLoading,
+    farmers,
+    farmersError,
+    farmersLoading,
+    router,
+    setUserAddress,
+  ]);
 
   return (
     <div className="flex h-screen">
@@ -43,13 +79,13 @@ export default function LoginScreen() {
         </div>
       </div>
 
-      {/* Right Section */}
       <div className="w-2/3 bg-green-800 p-12 flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold text-white mb-8 p-4 leading-10">
-          Link Your Personal Wallet
+          Connect your wallet
         </h1>
         <p className="text-2xl text-white font-semibold mb-12 p-4">
-          Select your personal wallet to access the marketplace
+          Gain access to the marketplace by linking your personal wallet or
+          create a new wallet with your credentials
         </p>
 
         <div className="flex space-x-8 mb-8">
@@ -58,14 +94,15 @@ export default function LoginScreen() {
           <Image src={image3} alt="MetaMask img" className="h-30 w-30" />
         </div>
 
-        {/* <ConnectButton client={client} /> */}
-
-        <button
-          onClick={connect}
-          className="w-[269px] h-[65px] bg-[#48B94D] mt-4 text-white font-semibold text-3xl leading-7 rounded-[15px] hover:bg-green-600 transition duration-300"
-        >
-          Connect Wallet
-        </button>
+        <ConnectButton
+          client={client}
+          connectButton={{ label: "Connect Wallet" }}
+          theme={darkTheme({
+            colors: {
+              primaryButtonBg: "#48B94D",
+            },
+          })}
+        />
       </div>
     </div>
   );
