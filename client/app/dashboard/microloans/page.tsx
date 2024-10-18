@@ -11,7 +11,8 @@ export default function Loans() {
 			</div>
 
 			<div className="w-[95%] mx-auto mt-10">
-				<div className="flex justify-between gap-x-5 bg-white p-10 w-[65%]">
+				<div className="flex justify-between gap-x-5 bg-white p-10 w-[65%] relative">
+					<h1 className="bg-green-600 absolute -top-6 p-3 font-semibold text-white">APPLICATIONS</h1>
 					<div className="space-y-3">
 						<div className="flex items-center space-x-3">
 							<Image
@@ -131,9 +132,16 @@ export default function Loans() {
 								Principal Paid:{" "}
 							</p>
 						</CardContent>
-						<CardFooter className="flex justify-between w-full">
-							<div className="flex">
-								<Progress value={33} />
+						<CardFooter className="flex w-full flex-col">
+							<div className="self-start flex items-center w-[60%] justify-between">
+								<p className="self-start text-3xl font-semibold">$1300</p>
+								<p>of $2500</p>
+							</div>
+							<div className="flex w-full">
+								<Progress
+									value={55}
+									className="w-[60%]"
+								/>
 							</div>
 						</CardFooter>
 					</Card>
