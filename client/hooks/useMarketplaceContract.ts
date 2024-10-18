@@ -49,6 +49,32 @@ export const useMarketplaceContract = () => {
   };
 };
 
-// export function useGetFarmer(address: string) {
+// export const useRegister = ({
+//   name,
+//   location,
+//   role,
+// }: {
+//   name: string;
+//   location: string;
+//   role: number;
+// }) => {
+//   const { userAddress } = useWallet();
 
-// }
+//   const marketplaceContract = getContract({
+//     client,
+//     address: MARKETPLACEADDRESS,
+//     chain: liskSepolia,
+//   });
+
+//   const { mutate: register, error: registerbuyersError } = useSendTransaction();
+
+//   const registerTx = prepareContractCall({
+//     contract: marketplaceContract,
+//     method:
+//       "function registerUser(address _account, string memory _name, string memory _location, uint8 _role)",
+//     params: [userAddress, name, location, role],
+//   });
+//   register(registerTx);
+
+//   return { registerTx, registerbuyersError };
+// };
