@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract MicroloanPlatform {
     
@@ -16,6 +17,10 @@ contract MicroloanPlatform {
 
     address public platformOwner;
     uint256 public loanCounter;
+
+    // token 
+   IERC20 public token;
+
 
     // Mapping loan ID to Loan struct
     mapping(uint256 => Loan) public loans;
@@ -36,14 +41,33 @@ contract MicroloanPlatform {
     event LoanRepaid(uint256 indexed loanId, address indexed borrower);
     event LoanDefaulted(uint256 indexed loanId, address indexed borrower);
 
+error ZeroAddressDetected();
+error NotElligible();
+error ZeroAmountNotAllowed();
+error MustBeInFuture();
+error  CollateralIsLow();
+error InsufficientBalance();
+error OnlyTheBollower();
+error NotAuthorized();
+error LoanIsPaid();
+error LoanIsDefaulted();
+error NotYetDue();
+
     
     modifier onlyPlatformOwner() {
         require(msg.sender == platformOwner, "Not authorized");
         _;
     }
+    
 
-    constructor() {
+
+
+
+    constructor(address _tokenAddress) {
+          token = IERC20(_tokenAddress);
         platformOwner = msg.sender;
+        
+        
     }
 
     
@@ -55,14 +79,30 @@ contract MicroloanPlatform {
         uint256 _collateralProduceId,
         uint256 _collateralValue
     ) public onlyPlatformOwner returns (uint256) {
-        require(_loanAmount > 0, "Loan amount must be greater than 0");
-        require(_repaymentDate > block.timestamp, "Repayment date must be in the future");
-        require(_collateralValue >= _loanAmount, "Collateral value must cover the loan");
+        if (_borrower == address(0)) {
+            revert ZeroAddressDetected();
+            }
+
+            if (token.balanceOf(_borrower) < 0){
+                revert NotElligible();
+        }
+        if (_loanAmount <= 0) {
+            revert ZeroAmountNotAllowed();
+        }
+
+        if (_repaymentDate <= block.timestamp) {
+            revert MustBeInFuture();
+        }
         
+        if (_collateralValue <=  _loanAmount) {
+            revert CollateralIsLow();
+        }
+       
+       if (address(this).balance < _loanAmount) {
+        revert InsufficientBalance();
         
-        require(address(this).balance >= _loanAmount, "Not enough balance to issue loan");
-        
-        
+       }
+
         loanCounter++;
 
         
@@ -101,12 +141,22 @@ contract MicroloanPlatform {
     function repayLoan(uint256 _loanId) public payable {
         Loan storage loan = loans[_loanId];
 
-        require(msg.sender == loan.borrower, "Only the borrower can repay the loan");
-        require(!loan.isRepaid, "Loan is already repaid");
-        require(!loan.isDefaulted, "Loan is defaulted");
+  uint256 totalRepaymentAmount = loan.loanAmount + calculateInterest(loan.loanAmount, loan.interestRate);
 
-        uint256 totalRepaymentAmount = loan.loanAmount + calculateInterest(loan.loanAmount, loan.interestRate);
-        require(msg.value >= totalRepaymentAmount, "Insufficient amount to repay loan");
+        if(msg.sender != loan.borrower){
+            revert OnlyTheBollower();
+        }
+    if (loan.isRepaid) {
+        revert LoanIsPaid();
+    }
+    if(loan.isDefaulted){
+        revert LoanIsDefaulted();
+
+    }
+    if(msg.value < totalRepaymentAmount){
+        revert InsufficientBalance();
+    }
+       
 
         loan.isRepaid = true;
 
@@ -117,9 +167,14 @@ contract MicroloanPlatform {
     //This is the function to handle loan default
     function checkLoanDefault(uint256 _loanId) public {
         Loan storage loan = loans[_loanId];
+if(block.timestamp < loan.repaymentDate){
+    revert  NotYetDue();
+}
 
-        require(block.timestamp > loan.repaymentDate, "Loan is not yet due");
-        require(!loan.isRepaid, "Loan is already repaid");
+ if (loan.isRepaid) {
+        revert LoanIsPaid();
+    }
+
 
         // Mark loan as defaulted
         loan.isDefaulted = true;
