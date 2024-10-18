@@ -4,16 +4,32 @@ import { SIDEBAR_ITEMS } from "@/lib/constants";
 import { NavItemWrapper } from "./nav-item-wrapper";
 import { usePathname } from "next/navigation";
 import { Icons } from "../icons";
-import { Button } from "../ui/button";
 import Link from "next/link";
+import { useWallet } from "@/context/wallet";
+import { ConnectButton, darkTheme, useActiveAccount } from "thirdweb/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { client } from "@/utils/client";
 
 export function Sidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
 
-  const userAddress = "0x6f..813A65";
+  const { userAddress, setUserAddress } = useWallet();
+
+  const activeAccount = useActiveAccount();
+
+  useEffect(() => {
+    if (activeAccount?.address) {
+      setUserAddress(activeAccount.address);
+      console.log(userAddress);
+    } else {
+      router.push("/login");
+    }
+  }, [activeAccount, router, setUserAddress, userAddress]);
 
   return (
-    <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+    <div className="grid min-h-screen w-full grid-cols-[280px_1fr]">
       <aside className="sticky top-0 h-screen bg-blue-2">
         <div className="flex h-full max-h-screen flex-col p-6">
           <Link href={"/"}>
@@ -61,15 +77,21 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
                   />
                 </NavItemWrapper>
               </li>
+
+              <li>
+                <Link href={"/marketplace"}>Open Marketplace</Link>
+              </li>
             </ul>
 
-            <Button
-              variant={"ghost"}
-              className="w-[186px] gap-4 h-auto py-0 justify-start text-gray-0 hover:text-blue-0 hover:bg-white text-base"
-            >
-              <Icons.logout />
-              <span>{userAddress}</span>
-            </Button>
+            <ConnectButton
+              client={client}
+              connectButton={{ label: "Connect Wallet" }}
+              theme={darkTheme({
+                colors: {
+                  primaryButtonBg: "#fff",
+                },
+              })}
+            />
           </nav>
         </div>
       </aside>
