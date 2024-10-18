@@ -13,15 +13,6 @@ import { useMarketplaceContract } from "@/hooks/useMarketplaceContract";
 import { useRouter } from "next/navigation";
 
 export default function LoginScreen() {
-  //pseudocode
-  /**
-   * connect wallet
-   * check if user is new or already registered
-   * if new => router.push("/registration")
-   * if registered  => check if user role is farmer or buyer
-   * if farmer => router.push("/dashboard")
-   * if buyer => router.push("/marketplace")
-   */
   const { setUserAddress } = useWallet();
 
   const activeAccount = useActiveAccount();
@@ -37,6 +28,8 @@ export default function LoginScreen() {
 
   const router = useRouter();
 
+  //! bad check
+
   useEffect(() => {
     if (activeAccount?.address) {
       setUserAddress(activeAccount.address);
@@ -44,14 +37,12 @@ export default function LoginScreen() {
       if (farmersError) console.log(farmersError);
       if (farmersLoading) console.log("farmloading");
 
-      if (farmers?.[3] === 1) {
-        router.push("/dashboard");
-      }
-
       if (buyersError) console.log(buyersError);
       if (buyersLoading) console.log("loading");
 
-      if (buyers?.[3] === 2) {
+      if (farmers?.[3] === 1) {
+        router.push("/dashboard");
+      } else if (buyers?.[3] === 2) {
         router.push("/marketplace");
       } else {
         router.push("/registration");
